@@ -17,6 +17,7 @@ The analysis includes:
 * feature engineering
 * exploratory data analysis (EDA)
 * hypothesis testing with t-tests
+* machine learning models for predicting average recipe ratings
 
 ## Main File
 
