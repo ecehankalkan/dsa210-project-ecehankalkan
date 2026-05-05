@@ -27,3 +27,13 @@ The analysis includes:
 
 To explore whether simple measurable recipe features can explain differences in user ratings.
 
+## Machine Learning Methods
+
+For the May 5 milestone, machine learning methods were applied to predict recipe ratings based on recipe-level features such as preparation time, number of ingredients, calories, and other available numerical variables.
+
+Models used:
+- Linear Regression
+- Random Forest Regressor
+
+The models were evaluated using train/test split (80/20), test metrics (MAE, RMSE, R² score), and feature importance analysis. Both models achieved low R² scores, indicating that simple recipe features alone have limited predictive power for user ratings.
+
