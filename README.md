@@ -23,6 +23,22 @@ The analysis includes:
 
 * `recipe_ratings_analysis.ipynb`
 
+## Reproduce the analysis
+
+1. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+2. Open the notebook:
+
+```bash
+jupyter notebook recipe_ratings_analysis.ipynb
+```
+
+3. Run all cells in order. The notebook assumes the data files listed below are available.
+
 ## Objective
 
 To explore whether simple measurable recipe features can explain differences in user ratings.
@@ -51,17 +67,23 @@ python -m uvicorn app:app --reload
 http://127.0.0.1:8000
 ```
 
-### Data requirements
+### Data requirements (full or sample)
 
 The app expects these files in the repository:
 
 - data/RAW_recipes.csv
 - data/RAW_interactions.csv (or archive/interactions_train.csv as fallback)
 
-If the full datasets are not available, the app falls back to:
+If the full datasets are not available, the app falls back to the sample files included in this repo:
 
 - data/RAW_recipes_sample.csv
 - data/RAW_interactions_sample.csv
+
+### Web app usage
+
+- Search recipes by keyword in the recipe name.
+- Filter by minimum rating, preparation time, and ingredient count.
+- Click a recipe title to open the detail page with ingredients, steps, and additional metadata.
 
 ## Machine Learning Methods
 
