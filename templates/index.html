@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recipe Rating Explorer</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="bg-pattern"></div>
+    <main class="page">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Recipe Rating Explorer</p>
+          <h1>Find recipes that score higher in the ratings.</h1>
+          <p class="lede">
+            Search by keyword and filter by preparation time, ingredient count, and minimum rating.
+            The summary highlights how the selected recipes perform.
+          </p>
+        </div>
+        <div class="summary">
+          <h2>Analysis Summary</h2>
+          <div class="summary-grid">
+            <div>
+              <span class="label">Recipes matched</span>
+              <span class="value">{{ stats.count }}</span>
+            </div>
+            <div>
+              <span class="label">Average rating</span>
+              <span class="value">{{ stats.avg_rating }}</span>
+            </div>
+            <div>
+              <span class="label">Avg minutes</span>
+              <span class="value">{{ stats.avg_minutes }}</span>
+            </div>
+            <div>
+              <span class="label">Avg ingredients</span>
+              <span class="value">{{ stats.avg_ingredients }}</span>
+            </div>
+            <div>
+              <span class="label">Avg steps</span>
+              <span class="value">{{ stats.avg_steps }}</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="controls">
+        <form method="get" class="filters">
+          <label>
+            <span>Search recipe name</span>
+            <input
+              type="text"
+              name="q"
+              placeholder="chicken, pasta, cake"
+              value="{{ filters.q }}"
+            />
+          </label>
+
+          <label>
+            <span>Minimum rating</span>
+            <select name="min_rating">
+              <option value="any" {% if filters.min_rating == 'any' %}selected{% endif %}>Any rating</option>
+              <option value="4.0" {% if filters.min_rating == '4.0' %}selected{% endif %}>4.0+</option>
+              <option value="4.3" {% if filters.min_rating == '4.3' %}selected{% endif %}>4.3+</option>
+              <option value="4.5" {% if filters.min_rating == '4.5' %}selected{% endif %}>4.5+</option>
+              <option value="4.8" {% if filters.min_rating == '4.8' %}selected{% endif %}>4.8+</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Preparation time</span>
+            <select name="time">
+              <option value="any" {% if filters.time == 'any' %}selected{% endif %}>Any time</option>
+              <option value="under_15" {% if filters.time == 'under_15' %}selected{% endif %}>Under 15 minutes</option>
+              <option value="under_30" {% if filters.time == 'under_30' %}selected{% endif %}>Under 30 minutes</option>
+              <option value="under_60" {% if filters.time == 'under_60' %}selected{% endif %}>Under 60 minutes</option>
+              <option value="one_two_hours" {% if filters.time == 'one_two_hours' %}selected{% endif %}>1-2 hours</option>
+              <option value="over_2_hours" {% if filters.time == 'over_2_hours' %}selected{% endif %}>More than 2 hours</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Number of ingredients</span>
+            <select name="ingredients">
+              <option value="any" {% if filters.ingredients == 'any' %}selected{% endif %}>Any number</option>
+              <option value="1_5" {% if filters.ingredients == '1_5' %}selected{% endif %}>1-5 ingredients</option>
+              <option value="6_10" {% if filters.ingredients == '6_10' %}selected{% endif %}>6-10 ingredients</option>
+              <option value="11_15" {% if filters.ingredients == '11_15' %}selected{% endif %}>11-15 ingredients</option>
+              <option value="over_15" {% if filters.ingredients == 'over_15' %}selected{% endif %}>More than 15 ingredients</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Sort by</span>
+            <select name="sort">
+              <option value="rating_desc" {% if filters.sort == 'rating_desc' %}selected{% endif %}>Highest rating</option>
+              <option value="minutes_asc" {% if filters.sort == 'minutes_asc' %}selected{% endif %}>Shortest preparation time</option>
+              <option value="ingredients_asc" {% if filters.sort == 'ingredients_asc' %}selected{% endif %}>Fewest ingredients</option>
+              <option value="reviews_desc" {% if filters.sort == 'reviews_desc' %}selected{% endif %}>Most reviewed</option>
+            </select>
+          </label>
+
+          <button type="submit">Search recipes</button>
+        </form>
+      </section>
+
+      <section class="results">
+        <h2>Results</h2>
+        {% if results %}
+          <div class="grid">
+            {% for row in results %}
+              <article class="card">
+                <div class="card-header">
+                  <h3><a class="card-link" href="/recipe/{{ row.id }}">{{ row.name }}</a></h3>
+                  <span class="rating">{{ row.avg_rating | round(2) }}</span>
+                </div>
+                <dl>
+                  <div>
+                    <dt>Prep time</dt>
+                    <dd>{{ row.minutes | default('N/A') }}</dd>
+                  </div>
+                  <div>
+                    <dt>Ingredients</dt>
+                    <dd>{{ row.n_ingredients | default('N/A') }}</dd>
+                  </div>
+                  <div>
+                    <dt>Steps</dt>
+                    <dd>{{ row.n_steps | default('N/A') }}</dd>
+                  </div>
+                  <div>
+                    <dt>Reviews</dt>
+                    <dd>{{ row.rating_count | default('N/A') }}</dd>
+                  </div>
+                </dl>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="empty">No recipes match these filters. Try loosening the filters.</p>
+        {% endif %}
+      </section>
+    </main>
+  </body>
+</html>

@@ -27,6 +27,42 @@ The analysis includes:
 
 To explore whether simple measurable recipe features can explain differences in user ratings.
 
+## Web App: Recipe Rating Explorer
+
+This project also includes a minimal, single-page web app for exploring which recipe features are associated with higher ratings. The UI is a thin HTML/CSS layer, while all logic and data processing are implemented in Python.
+
+### How to run
+
+1. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+2. Start the app:
+
+```bash
+python -m uvicorn app:app --reload
+```
+
+3. Open the app in your browser:
+
+```
+http://127.0.0.1:8000
+```
+
+### Data requirements
+
+The app expects these files in the repository:
+
+- data/RAW_recipes.csv
+- data/RAW_interactions.csv (or archive/interactions_train.csv as fallback)
+
+If the full datasets are not available, the app falls back to:
+
+- data/RAW_recipes_sample.csv
+- data/RAW_interactions_sample.csv
+
 ## Machine Learning Methods
 
 For the May 5 milestone, machine learning methods were applied to predict recipe ratings based on recipe-level features such as preparation time, number of ingredients, calories, and other available numerical variables.

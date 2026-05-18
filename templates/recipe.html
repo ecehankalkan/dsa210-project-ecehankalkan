@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ recipe.name }} | Recipe Rating Explorer</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="bg-pattern"></div>
+    <main class="page detail-page">
+      <a class="back-link" href="/">Back to search</a>
+
+      <header class="detail-hero">
+        <div>
+          <p class="eyebrow">Recipe Detail</p>
+          <h1>{{ recipe.name }}</h1>
+          {% if recipe.description %}
+            <p class="lede">{{ recipe.description }}</p>
+          {% endif %}
+        </div>
+        <div class="summary">
+          <h2>Recipe Facts</h2>
+          <div class="summary-grid">
+            <div>
+              <span class="label">Average rating</span>
+              <span class="value">{{ recipe.avg_rating | round(2) }}</span>
+            </div>
+            <div>
+              <span class="label">Reviews</span>
+              <span class="value">{{ recipe.rating_count }}</span>
+            </div>
+            <div>
+              <span class="label">Prep minutes</span>
+              <span class="value">{{ recipe.minutes | default('N/A') }}</span>
+            </div>
+            <div>
+              <span class="label">Ingredients</span>
+              <span class="value">{{ recipe.n_ingredients | default('N/A') }}</span>
+            </div>
+            <div>
+              <span class="label">Steps</span>
+              <span class="value">{{ recipe.n_steps | default('N/A') }}</span>
+            </div>
+            {% if recipe.calories == recipe.calories %}
+              <div>
+                <span class="label">Calories</span>
+                <span class="value">{{ recipe.calories | round(0) }}</span>
+              </div>
+            {% endif %}
+            {% if recipe.servings %}
+              <div>
+                <span class="label">Servings</span>
+                <span class="value">{{ recipe.servings }}</span>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </header>
+
+      <section class="detail-grid">
+        <div class="detail-card">
+          <h2>Ingredients</h2>
+          {% if recipe.ingredients %}
+            <ul class="detail-list">
+              {% for item in recipe.ingredients %}
+                <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="empty">No ingredient list available.</p>
+          {% endif %}
+        </div>
+
+        <div class="detail-card">
+          <h2>Steps</h2>
+          {% if recipe.steps %}
+            <ol class="detail-list">
+              {% for step in recipe.steps %}
+                <li>{{ step }}</li>
+              {% endfor %}
+            </ol>
+          {% else %}
+            <p class="empty">No steps available.</p>
+          {% endif %}
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
